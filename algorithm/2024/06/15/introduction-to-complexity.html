@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>淺談計算複雜性理論</title><!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="淺談計算複雜性理論" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="1. 前言 1-1. 難度的概念 1-2. 回顧 - 多項式時間 (polynomial time) 1-3. 準備 - 歸約 (reduction) 1-4. 準備 - 決定性問題 vs. 最佳化問題 1-5. 準備 - 確定性算法 vs. 非確定性算法 2. P 問題與 NP 問題 2-1. P 問題 2-2. NP 問題 2-2-1. NP 問題的例子 2-3. P 是 NP 的子集 2-4. 運用歸約證明 P 和 NP 間的關係 3. NP-Hard 問題 3-1. 非 NP 的 NP-Hard 問題 - 以停機問題為例 4. NP-Complete 問題 4-1. NP-Complete 問題中的重要例子 - SAT Problem 5. P = NP 猜想" />
+<meta property="og:description" content="1. 前言 1-1. 難度的概念 1-2. 回顧 - 多項式時間 (polynomial time) 1-3. 準備 - 歸約 (reduction) 1-4. 準備 - 決定性問題 vs. 最佳化問題 1-5. 準備 - 確定性算法 vs. 非確定性算法 2. P 問題與 NP 問題 2-1. P 問題 2-2. NP 問題 2-2-1. NP 問題的例子 2-3. P 是 NP 的子集 2-4. 運用歸約證明 P 和 NP 間的關係 3. NP-Hard 問題 3-1. 非 NP 的 NP-Hard 問題 - 以停機問題為例 4. NP-Complete 問題 4-1. NP-Complete 問題中的重要例子 - SAT Problem 5. P = NP 猜想" />
+<link rel="canonical" href="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html" />
+<meta property="og:url" content="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html" />
+<meta property="og:site_name" content="yuntingchiu_" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-15T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="淺談計算複雜性理論" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-06-15T00:00:00+00:00","datePublished":"2024-06-15T00:00:00+00:00","description":"1. 前言 1-1. 難度的概念 1-2. 回顧 - 多項式時間 (polynomial time) 1-3. 準備 - 歸約 (reduction) 1-4. 準備 - 決定性問題 vs. 最佳化問題 1-5. 準備 - 確定性算法 vs. 非確定性算法 2. P 問題與 NP 問題 2-1. P 問題 2-2. NP 問題 2-2-1. NP 問題的例子 2-3. P 是 NP 的子集 2-4. 運用歸約證明 P 和 NP 間的關係 3. NP-Hard 問題 3-1. 非 NP 的 NP-Hard 問題 - 以停機問題為例 4. NP-Complete 問題 4-1. NP-Complete 問題中的重要例子 - SAT Problem 5. P = NP 猜想","headline":"淺談計算複雜性理論","mainEntityOfPage":{"@type":"WebPage","@id":"https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html"},"url":"https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link type="application/atom+xml" rel="alternate" href="https://chiuinggum.github.io/feed.xml" title="yuntingchiu_" /><link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href=""
+  />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.css"
+    integrity="sha384-OH8qNTHoMMVNVcKdKewlipV4SErXqccxxlg6HC9Cwjr5oZu2AdBej1TndeCirael"
+    crossorigin="anonymous"
+  />
+</head>
+<body a="auto">
+    <main class="page-content" aria-label="Content">
+      <div class="w">
+        <a href="/">..</a><article>
+  <p class="post-meta">
+    <time datetime="2024-06-15 00:00:00 +0000">2024-06-15</time>
+  </p>
+  
+  <h1>淺談計算複雜性理論</h1>
+
+  <ul>
+  <li><a href="#1-前言">1. 前言</a>
+    <ul>
+      <li><a href="#1-1-難度的概念">1-1. 難度的概念</a></li>
+      <li><a href="#1-2-回顧---多項式時間-polynomial-time">1-2. 回顧 - 多項式時間 (polynomial time)</a></li>
+      <li><a href="#1-3-準備---歸約-reduction">1-3. 準備 - 歸約 (reduction)</a></li>
+      <li><a href="#1-4-準備---決定性問題-vs-最佳化問題">1-4. 準備 - 決定性問題 vs. 最佳化問題</a></li>
+      <li><a href="#1-5-準備---確定性算法-vs-非確定性算法">1-5. 準備 - 確定性算法 vs. 非確定性算法</a></li>
+    </ul>
+  </li>
+  <li><a href="#2-p-問題與-np-問題">2. P 問題與 NP 問題</a>
+    <ul>
+      <li><a href="#2-1-p-問題">2-1. P 問題</a></li>
+      <li><a href="#2-2-np-問題">2-2. NP 問題</a>
+        <ul>
+          <li><a href="#2-2-1-np-問題的例子">2-2-1. NP 問題的例子</a></li>
+        </ul>
+      </li>
+      <li><a href="#2-3-p-是-np-的子集">2-3. P 是 NP 的子集</a></li>
+      <li><a href="#2-4-運用歸約證明-p-和-np-間的關係">2-4. 運用歸約證明 P 和 NP 間的關係</a></li>
+    </ul>
+  </li>
+  <li><a href="#3-np-hard-問題">3. NP-Hard 問題</a>
+    <ul>
+      <li><a href="#3-1-非-np-的-np-hard-問題---以停機問題為例">3-1. 非 NP 的 NP-Hard 問題 - 以停機問題為例</a></li>
+    </ul>
+  </li>
+  <li><a href="#4-np-complete-問題">4. NP-Complete 問題</a>
+    <ul>
+      <li><a href="#4-1-np-complete-問題中的重要例子---sat-problem">4-1. NP-Complete 問題中的重要例子 - SAT Problem</a></li>
+    </ul>
+  </li>
+  <li><a href="#5-p-np-猜想">5. P = NP 猜想</a></li>
+</ul>
+
+<h2 id="1-前言"><strong>1. 前言</strong></h2>
+
+<p>在一般大學課程中所學到的演算法，大多都是多項式時間 (polynomial time) 的算法，意即給定大小為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的輸入，此算法的最壞情況的時間複雜度 (worst-case time complexity) 為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mi>k</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。然而，有很多的演算法問題，是目前找不到方法可以在多項式時間內解<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>。很明顯地，「可以用多項式時間解的問題」和「不確定是否可以用多項式時間解的問題」，這兩種問題的「難度」應該不同。在「不確定是否可以用多項式時間解的問題」這一類中，又應該進一步細分以幫助我們更好地分類問題。因此學者在研究這些問題的過程中，希望能用一種方式將這些問題依照「難度」分類，以方便進行討論。</p>
+
+<p>這些難度分類包括 「P 問題 (P problems)」以及「NP 問題 (NP problems)」。你或許還聽過「NP 完備問題 (NP-Complete problems)」或是「NP 困難問題 (NP-Hard problems )」等。不過，即便全部沒聽過也沒關係，我們都將在本文當中討論到這些概念。</p>
+
+<p>本文想討論的是這些<strong>難度分類的標準為何</strong>，以及我們應該<strong>如何判斷一個問題是隸屬於哪個分類</strong>。在正式開始討論這些難度分類之前，我們會先釐清我所說的難度為何、回顧需要用到的重要概念，以及準備好學習這些分類所需的工具。</p>
+
+<h3 id="1-1-難度的概念"><strong>1-1. 難度的概念</strong></h3>
+
+<p>一個問題的「難度」在有明確定義之前是抽象的。有人可能會說問題越大，則問題越難，但其實並非如此。例如，給定一個有序數列，尋找其中某個數字的問題，即便數列很大，仍可以用二分搜尋法在對數時間內解決，因此這類問題的難度並不高。難度的問題一樣要回歸到時間複雜度的討論，像是以「一個問題可不可以用多項式時間解」當作判斷標準，來決定一個問題的難度分類。</p>
+
+<p>需要小心的是，這個難度分類是類似一個級距，例如 80 - 89 分的人有 13 個，這並不代表這 13 個人的分數完全一樣。也就是說，同樣被歸類在 NP 的兩個問題，「實際的難度」可能不同，但他們大致上的難度都是 NP。（現在不知道什麼是 NP 沒關係，只要知道他是一個分類就好）</p>
+
+<h3 id="1-2-回顧---多項式時間-polynomial-time"><strong>1-2. 回顧 - 多項式時間 (polynomial time)</strong></h3>
+
+<p>如果不熟悉時間複雜度 (time complexity) 或是大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> 符號 (Big-O notation)，建議可以先去了解一下這兩個概念，再回來看這篇文會比較好理解。如果你已經知道它們是什麼，透過下圖喚醒一下記憶，知道哪些時間複雜度是多項式時間就夠了：</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/Big-O-Complexity-Chart.png" alt="Big-O Complexity Chart" /></p>
+
+<p><strong>為什麼要熟悉多項式時間？</strong><br />
+在多項式時間內可以被解決的事都是簡單的，這對於後續判定難度的方式很重要。我們也說，多項式時間的算法是有效率的。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mi>k</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 都是有效率的。</span></li>
+  </ul>
+</blockquote>
+
+<h3 id="1-3-準備---歸約-reduction"><strong>1-3. 準備 - 歸約 (reduction)</strong></h3>
+
+<p>我們說「問題 A 可歸約成問題 B (problem A is reducible to problem B)」，意即存在一個多項式時間算法可以將一組「A 問題輸入」轉換成一組等價的<sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>「B 問題輸入」。</p>
+
+<p>當我們「將問題 A 歸約成問題 B (problem A reduces to problem B; reduction from problem A to problem B)」時，可以將其關係表示為：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><msub><mo>≤</mo><mi>p</mi></msub><mi>B</mi></mrow><annotation encoding="application/x-tex">A \le_p B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel">≤</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> 代表 polynomial）</p>
+
+<p>這個關係有幾個特性：</p>
+
+<ul>
+  <li>問題 B 的難度至少和問題 A 的難度一樣。如果知道怎麼解決問題 B，就一定知道怎麼解決問題 A。</li>
+  <li>遞移性 (transitivity)：已知問題 A 可以歸約成問題 B，如果問題 B 可以歸約成問題 C，則問題 A 也可以歸約成問題 C。</li>
+</ul>
+
+<p>這樣講可能還是有點抽象，我們來看一些例子：</p>
+
+<ol>
+  <li>
+    <p>路徑問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> 連通問題</p>
+
+    <ul>
+      <li>路徑問題：給定一個圖 G 和兩個點 s 和 t，判斷是否存在從 s 到 t 的路徑</li>
+      <li>連通問題：給定一個圖 G，判斷 G 是否連通，意即是否存在從任一點到任一其他點的路徑</li>
+      <li>歸約過程：若能解決「連通問題」，我們可以透過檢查 G 的聯通性來解決「路徑問題」。若我們去掉所有邊並只保留 s 和 t 之間的邊，再檢查這個新圖的連通性。如果新圖是連通的，則從 s 到 t 存在一條路徑。</li>
+    </ul>
+  </li>
+  <li>
+    <p>子集合問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> 背包問題</p>
+
+    <ul>
+      <li>子集合問題：給定一組商品價格，判斷是否存在一個子集，其總和等於目標金額</li>
+      <li>背包問題：給定一組物品，每個物品有重量和價值，找到在重量限制下最有價值的組合</li>
+      <li>歸約過程：將每個商品價格轉換為一個重量等於其價格，價值等於 1 的物品。然後，子集和問題可以歸約成找到背包配置，使得價值恰好等於目標總和。</li>
+    </ul>
+  </li>
+</ol>
+
+<p><em>為什麼要了解什麼是歸約？</em><br />
+當我們在分類問題難度的時候，經常會使用到「歸約」這個技巧。歸約講白話一點就是「轉換」。由於我們很難從零證明某個問題隸屬於某個難度，因此我們常會拿一些已經被證明難度為何的問題，來幫我們找出一個新問題的難度。<br />
+也就是說，當我們面對一個不熟悉的問題（不知道該如何分類的問題）時，可以把這個問題轉換成一個比較熟悉的問題（已知分類為何的問題）。透過這樣的技巧，就可以輕鬆地證明出某個問題的難度。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">若 A 可以歸約成 B，則 B 的難度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> A 的難度</span></li>
+    <li><span class="highlight">歸約存在遞移性</span></li>
+  </ul>
+</blockquote>
+
+<h3 id="1-4-準備---決定性問題-vs-最佳化問題"><strong>1-4. 準備 - 決定性問題 vs. 最佳化問題</strong></h3>
+
+<p>我們可以將問題分類成「決定性問題 (decision problem)」以及「最佳化問題 (optimization problem)」。決定性問題的答案只有「是 (yes)」 或是「否 (no)」，而最佳化問題的答案是最佳化的結果。</p>
+
+<p>所有的最佳化問題都可以被轉換成決定性問題。直接看例子：</p>
+
+<ol>
+  <li>
+    <p>最短路徑問題 (shortest problem)</p>
+
+    <ul>
+      <li>最佳化問題：找出圖中的最短路徑</li>
+      <li>決定性問題：是否存在一條路徑總長小於 500<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>？</li>
+    </ul>
+  </li>
+  <li>
+    <p>旅行推銷員問題 (traveling salesperson problem)</p>
+
+    <ul>
+      <li>最佳化問題：找出圖中可以拜訪每個城市一次的最短路徑</li>
+      <li>決定性問題：是否存在可以拜訪每個城市一次的路徑，其總長小於 500？</li>
+    </ul>
+  </li>
+</ol>
+
+<p>仔細看的話，可以發現每個最佳化問題，都存在相對應的決定性問題，使得該決定性問題可以歸約成最佳化問題。</p>
+
+<p><em>為什麼要了解什麼是決定性問題以及什麼是最佳化問題？</em><br />
+在討論 P 問題和 NP 問題時，我們都只討論決定性問題，原因是決定性問題較容易分析和比較<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>。雖然很多問題最初是最佳化問題，但由於最佳化問題可以轉換成決定性問題，能夠解出決定性問題，通常也代表可以解出相關更複雜的最佳化問題。而決定性問題的關鍵在於幫助我們了解一個問題的難度。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">討論 P 問題和 NP 問題時，都只討論決定性問題。</span></li>
+    <li><span class="highlight">最佳化問題可以轉換成決定性問題。</span></li>
+  </ul>
+</blockquote>
+
+<h3 id="1-5-準備---確定性算法-vs-非確定性算法"><strong>1-5. 準備 - 確定性算法 vs. 非確定性算法</strong></h3>
+
+<h4 id="1-5-1-確定性算法-deterministic-algorithm"><strong>1-5-1. 確定性算法 (deterministic algorithm)</strong></h4>
+
+<p>我們<strong>平常指的演算法就是確定性算法</strong>。這種算法的特性是：每次餵給確定性算法同樣的輸入，<strong>產出的輸出都一樣</strong>。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/deterministic-algorithm-0.png" alt="deterministic-algorithm-0" width="250" />
+<em>黃色執行完後，如果 x = 0 ，則執行藍色；如果 x ≠ 0，則執行粉色</em></p>
+
+<p>就像平常寫的 Leetcode 題目，或是程式設計課程題庫中的題目一樣。我們寫出來的 code，每次輸入 sample input，輸出都應該是 sample output。</p>
+
+<h4 id="1-5-2-非確定性算法-non-deterministic-algorithm"><strong>1-5-2. 非確定性算法 (non-deterministic algorithm)</strong></h4>
+
+<p>這種算法的特性是：每次餵給非確定性算法同樣的輸入，<strong>產生的輸出可能不同</strong>。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/non-deterministic-algorithm-0.png" alt="non-deterministic-algorithm-0" width="250" />
+<em>黃色執行完後，不曉得會執行藍色，或執行粉色。</em></p>
+
+<p>非確定性算法分成兩個部份，分別是<strong>猜測</strong> (guessing) 和<strong>驗證</strong> (verification)。在討論複雜度理論的時候，我們假設這個算法<strong>總是猜對答案</strong>，並在得到答案後，算法會驗證答案的正確性。注意，我們並不在乎答案是怎麼被猜到的，這可能有點違反平常的思考邏輯，因為我們一直都是被訓練要釐清如何解出問題。但在這裡，我們不在乎那個解法是如何得到的。</p>
+
+<p>這個算法是一個理論上的概念，真實世界並不存在這樣的算法，我們之所以需要提到這個算法是為了後續的定義方便。一開始怎麼想可能都覺得怪怪的，可以先把這個算法想成永遠正確的神奇海螺，你拿什麼問題問它，它可以馬上告訴你答案。</p>
+
+<p><em>為什麼要了解什麼是確定性算法、什麼是非確定性算法？</em><br />
+在討論這些難度分類時，這兩種算法是重要的定義工具。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">確定性算法即一般的演算法。</span></li>
+    <li><span class="highlight">非確定性算法包含猜答案和驗證，且假設總是會猜對答案。</span></li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="2-p-問題與-np-問題"><strong>2. P 問題與 NP 問題</strong></h2>
+
+<h3 id="2-1-p-問題"><strong>2-1. P 問題</strong></h3>
+
+<p>首先，我們先討論最好理解的 P 問題 (P problems)，其全名為 “Polynomial Time Problems”。我們先直接看完整定義：</p>
+
+<blockquote>
+  <p>P 問題為那些可以花<strong>多項式時間</strong>用<strong>確定性</strong>算法<strong>解出來</strong>的決定性問題。<br />
+P problems are <strong>decision problems</strong> that can be <strong>solved in polynomial time</strong> by a <strong>deterministic</strong> algorithm.</p>
+</blockquote>
+
+<p>記得，確定性算法就是一般的演算法，而決定性問題就是一個是非題而已。這些概念都沒什麼了不起，但這個又臭又長的定義，第一次看到可能還是會有點頭昏眼花，所以可以先把它想成：</p>
+
+<blockquote>
+  <p>P 問題為那些可以<strong>花多項式時間解出來</strong>的問題。<br />
+P problems are problems that can be <strong>solved in polynomial time</strong>.</p>
+</blockquote>
+
+<p>總之，<strong>P 問題就是可以快速被解出來的問題</strong>，P 問題就是我們已經找到有效率的算法能解出來的問題。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">P 問題是容易解的問題。</span></li>
+    <li><span class="highlight">P 問題可以在多項式時間內被解出來。</span></li>
+  </ul>
+</blockquote>
+
+<h3 id="2-2-np-問題"><strong>2-2. NP 問題</strong></h3>
+
+<p>接著，我們來看讓人有點頭疼的 NP 問題，其全名為 “Non-Deterministic Polynomial Time Problems”。注意，NP 指的並非 Non-Polynomial，要小心一開始很容易搞錯。一樣直接看完整定義：</p>
+
+<blockquote>
+  <p>NP 問題為那些可以花<strong>多項式時間</strong>用<strong>非確定性</strong>算法解出來的<strong>決定性問題</strong>。<br />
+NP problems are <strong>decision problems</strong> that can be <strong>solved in polynomial</strong> time by a <strong>non-deterministic</strong> algorithm.</p>
+</blockquote>
+
+<p>可以用非確定性算法解的意思是：我們可以從神奇海螺那邊獲得一個答案後，驗證它是正確的答案。因此，這個定義的意思即為，在我們從神奇海螺那邊獲得答案之後，可以花多項式時間驗證這個答案。如同前面提到的，如何獲得這個答案並不重要，所以其實也可以簡單想成：</p>
+
+<blockquote>
+  <p>NP 問題為那些可以花<strong>多項式時間</strong>用確定性算法<strong>驗證答案</strong>的決定性問題。<br />
+NP problems are <strong>decision problems</strong> whose solution can be <strong>verified in polynomial time</strong>.</p>
+</blockquote>
+
+<p>也就是：</p>
+
+<blockquote>
+  <p>NP 問題為那些可以花<strong>多項式時間驗證答案</strong>的問題。<br />
+NP problems are problems whose solution can be <strong>verified in polynomial time</strong>.</p>
+</blockquote>
+
+<p>總之，NP 問題就是可以<strong>快速被驗證答案正不正確的問題</strong>。</p>
+
+<h4 id="2-2-1-np-問題的例子"><strong>2-2-1. NP 問題的例子</strong></h4>
+
+<p>給定 n 個物品和預算 c，每個物品有不同的標價。給定一個購買方式使得，購買的所有物品總價剛好為 c。</p>
+
+<p>給定一解（一組物品），我們可以很快速的將這組物品的總價算出，驗證是否等於 c。但由於我們必須試每個可能的購買組合，因此無法快速解這個問題。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">NP 問題是容易驗證答案的問題。</span></li>
+    <li><span class="highlight">NP 問題的解可以在多項式時間內被驗證。</span></li>
+  </ul>
+</blockquote>
+
+<h3 id="2-3-p-是-np-的子集"><strong>2-3. P 是 NP 的子集</strong></h3>
+
+<p>了解 P 問題和 NP 問題的定義後，我們很快地得出 P 問題也是 NP 問題的結論。原因是，可以用多項式時間找到解，意味著這個解在多項式時間被驗證。</p>
+
+<p>當已知一邊的包含性 (P ⊆ NP)，我們好奇是不是可以證明另一邊的包含性 (NP ⊆ P)，以證明 P = NP。在嘗試證明 NP ⊆ P 之前，必須先了解什麼是 NP-Hard 問題和 NP-Complete 問題。</p>
+
+<h3 id="2-4-運用歸約證明-p-和-np-間的關係"><strong>2-4. 運用歸約證明 P 和 NP 間的關係</strong></h3>
+
+<p>在前面「歸約」的小節中提到，如果問題 A 可以歸約成問題 B，則問題 B 的難度至少和問題 A 的難度一樣。在理解 P 問題和 NP 問題的定義後，明顯可以推得：</p>
+
+<blockquote>
+  <p>若 B 是一個 P 問題，則 A 也是一個 P 問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo lspace="0em" rspace="0em">⇔</mo></mrow><annotation encoding="application/x-tex">{\Leftrightarrow}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mord"><span class="mrel">⇔</span></span></span></span></span></p>
+
+  <p>若 A 不是一個 P 問題，則 B 也不是一個 P 問題<br />
+If B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> P, then A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> P <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo lspace="0em" rspace="0em">⇔</mo></mrow><annotation encoding="application/x-tex">{\Leftrightarrow}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mord"><span class="mrel">⇔</span></span></span></span></span> If A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> P, then B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> P</p>
+</blockquote>
+
+<blockquote>
+  <p>若 B 是一個 NP 問題，則 A 也是一個 NP 問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo lspace="0em" rspace="0em">⇔</mo></mrow><annotation encoding="application/x-tex">{\Leftrightarrow}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mord"><span class="mrel">⇔</span></span></span></span></span></p>
+
+  <p>若 A 不是一個 NP 問題，則 B 也不是一個 NP 問題<br />
+If B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> NP, then A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo></mrow><annotation encoding="application/x-tex">\in</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">∈</span></span></span></span> NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo lspace="0em" rspace="0em">⇔</mo></mrow><annotation encoding="application/x-tex">{\Leftrightarrow}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mord"><span class="mrel">⇔</span></span></span></span></span> If A <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> NP, then B <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo mathvariant="normal">∉</mo></mrow><annotation encoding="application/x-tex">\notin</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span></span></span></span> NP</p>
+</blockquote>
+
+<p>這個概念我們等等會用到。</p>
+
+<hr />
+
+<h2 id="3-np-hard-問題"><strong>3. NP-Hard 問題</strong></h2>
+
+<p>直覺上看到 NP-Hard 會以為它代表 NP 中困難的問題，但其實不然。我們先看定義：</p>
+
+<blockquote>
+  <p>若一個問題 Q 是 NP-Hard 問題，則<strong>每個 NP 問題都可以歸約成 Q</strong>。<br />
+If problem Q is a NP-Hard problem, then <strong>every NP problem can reduce to Q</strong>.</p>
+</blockquote>
+
+<p>直覺上出錯的地方在於，NP-Hard 問題不見得是 NP 問題。它之所以叫做 NP-Hard 不是因為它是 NP 問題，而是因為所有 NP 問題都可以歸約成它。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/np-and-np-hard.png" alt="np-and-np-hard" width="400" />
+<em>Q 為 NP-Hard 問題，X1 ~ X6 為 NP 問題，因此 X1 ~ X6 皆可歸約成 Q。</em></p>
+
+<p>而 ”Hard” 確實暗指了它是困難的。根據歸約的特性，NP-Hard 問題至少和所有的 NP 問題一樣難。因此，NP 與 NP-Hard 的難度關係可以大概想成<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>：</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/np-and-np-hard-difficulty.png" alt="np-and-np-hard-difficulty" width="400" /></p>
+
+<h3 id="3-1-非-np-的-np-hard-問題---以停機問題為例"><strong>3-1. 非 NP 的 NP-Hard 問題 - 以停機問題為例</strong></h3>
+
+<p>有什麼問題是 NP-Hard 但不是 NP 嗎？這樣的問題是存在的，著名的「停機問題 (halting problem)」就是非 NP 的 NP-Hard 問題。事實上，所有的「不可解問題 (undecidable problem) 」都是非 NP 的 NP-Hard 問題。由於篇幅關係，本文僅討論該如何證明停機問題非 NP，對於如何證明停機問題為 NP-Hard 目前不贅述。</p>
+
+<h4 id="3-1-1-什麼是不可解問題和-np-又有什麼關係"><strong>3-1-1. 什麼是不可解問題？和 NP 又有什麼關係？</strong></h4>
+
+<p>一個問題為不可解問題的意思是，不存在一個算法能夠解決問題。</p>
+
+<p>而根據 NP 的定義，NP 問題為那些可以花多項式時間用非確定性算法解出來的決定性問題，也就指出 NP 問題是可以被特定算法「解決」的。由於不可解問題無法用算法解決，因此<strong>不可解問題不是 NP 問題</strong>。</p>
+
+<h4 id="3-1-2-停機問題"><strong>3-1-2. 停機問題</strong></h4>
+
+<p>停機問題為一種不可解問題 (undecidable problem)。這個問題的敘述是：</p>
+
+<blockquote>
+  <p>給定一個程式，判定這個程式是否會停止 (terminate)。</p>
+</blockquote>
+
+<p>如果我們宣稱停機問題是不可解的，代表我們找不到一種方法，能夠判斷任何一個程式是否會停止。但這是真的嗎，難道我們永遠找不到這個方法嗎？要解答這個疑惑，我們可以先試著假設我們有這個方法，然後觀察會有什麼事情發生。如果一定會產生矛盾，就代表這個假設是錯的，所以我們就可以篤定停機問題真的是不可解。</p>
+
+<p>假設我們有道具 A，可以判斷任何一個程式是否會停止。這時候聰明的你就會想到，那我們不是可以寫一個程式叫做 Reverser，根據這個道具的輸出，決定要怎麼執行這個程式嗎？意思是，假設這個道具說程式 Reverser 會停止，那我們就讓 Reverser 進入一個無窮迴圈；反之，如果這個道具說程式 Reverser 不會停止，那我們就讓 Reverser 立刻停止。基本上就是和這個道具唱反調。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/reverser.png" alt="reverser" width="400" />
+<em>左圖為演算法 A；右圖為程式 Reverser</em></p>
+
+<p>這時候我們就會發現，由於 A 對 Reverser 是否終止的判斷永遠會錯，因此我們得到矛盾。證明不存在一個演算法可以判定所有的程式是否終止。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">全部的 NP 問題都可以歸約成 NP-Hard 問題。</span></li>
+    <li><span class="highlight">NP-Hard 問題不一定是 NP。</span></li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="4-np-complete-問題"><strong>4. NP-Complete 問題</strong></h2>
+
+<p>當我們知道什麼是 NP 問題以及什麼是 NP-Hard 問題，就可以討論 NP-Complete 問題了：</p>
+
+<blockquote>
+  <p>NP-Complete 問題為那些同時<strong>是 NP 也是 NP-Hard 的問題</strong>。<br />
+NP-Complete problems are problems that are <strong>NP and NP-Hard</strong> at the same time.</p>
+</blockquote>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/np-npc-nph.png" alt="np-npc-nph" width="400" /></p>
+
+<p>這句話代表的意義又是什麼呢？根據定義，NP-Complete 問題是 NP-Hard 問題，代表它至少和 NP 問題一樣難。又因為它同時也是 NP 問題，代表它「剛剛好」和所有的 NP 問題一樣難，不會更難也不會更簡單。我們也可以說 NP-Complete 問題是 NP 問題中最難的問題。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/np-npc-nph-difficulty.png" alt="np-npc-nph-difficulty" width="400" /></p>
+
+<p>根據 NP-Complete 的定義，證明一個問題 Q 是 NP-Complete 的方式很直觀，就是證明：</p>
+
+<ol>
+  <li>Q 是 <a href="#2-2-np-問題">NP 問題</a></li>
+  <li>Q 是 <a href="#3-np-hard-問題">NP-Hard 問題</a>（也就是證明所有 NP 問題都可以歸約成 Q）</li>
+</ol>
+
+<p>直覺上，證明「所有」是非常困難的。這時候，聰明的你就會想到可以用前面提到的<a href="#1-3-準備---歸約-reduction">歸約</a>技巧來幫助我們證明 Q 是 NP-Hard：</p>
+
+<blockquote>
+  <p>欲證明 Q 是 NP-Hard，可證明存在已知的 NP-Complete 問題 Q’，使得 Q’ 可以歸約成 Q</p>
+</blockquote>
+
+<p>也就是說，我們有以下等價關係：</p>
+
+<blockquote>
+  <p>Q 是 NP-Hard <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span></p>
+
+  <p>存在已知的一個 NP-Complete 問題 Q’，使得 Q’ 可以歸約成 Q<br />
+Q is NP-Hard <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∃</mi></mrow><annotation encoding="application/x-tex">\exist</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">∃</span></span></span></span> a NP-Complete problem Q’ such that Q’ <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> Q</p>
+</blockquote>
+
+<p>為什麼證明 Q’ 存在就可以證明 Q 是 NP-Complete 呢？因為全部的 NP 問題皆可已歸約成 Q’，而 Q’ 又可以歸約成 Q。根據歸約的遞移性，全部的 NP 問題皆可以歸約成 Q，也就是說，Q 是 NP-Hard。</p>
+
+<p>因此，欲證明 Q 是 NP-Complete，我們可以證明：</p>
+
+<ol>
+  <li>Q 是 NP 問題</li>
+  <li>存在已知的 NP-Complete 問題 Q’，使得 Q’ 可以歸約成 Q</li>
+</ol>
+
+<h3 id="4-1-np-complete-問題中的重要例子---sat-problem"><strong>4-1. NP-Complete 問題中的重要例子 - SAT Problem</strong></h3>
+
+<p>NP-Complete 中有一個著名的問題，叫做<strong>布林可滿足性問題</strong> (Boolean satisfiability problem; SAT problem)。由於這個問題已知是 NP-Complete，它就像是上面的問題 Q’，常常被拿來當作證明其它問題是 NP-Hard 的工具。</p>
+
+<p>SAT problem 是判斷一個布林方程式 (Boolean function) 是否可滿足 (satisfiable)<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>，換句話說，是否存在一組變數賦值 (assignment)<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>滿足給定的布林方程式。直接看例子會比較清楚：</p>
+
+<ul>
+  <li>例一
+    <ul>
+      <li>布林方程式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>∨</mo><msub><mi>x</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mo>∧</mo><mo stretchy="false">(</mo><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>3</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F = (x_1 \lor x_2) \land (\neg x_3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∨</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">¬</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+      <li>解（賦值）：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mtext>True</mtext><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo>=</mo><mtext>False</mtext><mo separator="true">,</mo><msub><mi>x</mi><mn>3</mn></msub><mo>=</mo><mtext>True</mtext></mrow><annotation encoding="application/x-tex">x_1 = \text{True}, x_2 = \text{False}, x_3 = \text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">True</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">False</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span></li>
+      <li>由於將解代入 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 後，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 的值為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>True</mtext></mrow><annotation encoding="application/x-tex">\text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span>，因此我們說 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 是可滿足的，且 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>x</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>3</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x_1, x_2, \neg x_3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">¬</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 為滿足 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 的賦值。</li>
+    </ul>
+  </li>
+  <li>例二
+    <ul>
+      <li>布林方程式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>∧</mo><mo stretchy="false">(</mo><mi mathvariant="normal">¬</mi><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F = (x_1) \land (\neg x_1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">¬</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+      <li>解（賦值）：不存在一組賦值使得 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>True</mtext></mrow><annotation encoding="application/x-tex">\text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span></li>
+      <li>由於不存在一組賦值使得 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>True</mtext></mrow><annotation encoding="application/x-tex">\text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span>，因此我們說 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> 是不可滿足的 (unsatisfiable)。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>我們有個重要定理叫做 “Cook-Levin Theorem”，就是在證明 SAT 是 NP-Complete。這個定理的證明相當複雜，我們本篇不討論，但它的結果延伸出其他重要的結論，我們將於下一節討論。</p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">NP-Complete 問題是 NP 問題中最難的問題。</span></li>
+    <li><span class="highlight">SAT problem 是 NP-Complete 問題，可以被用來證明其他問題是 NP-Complete。</span></li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="5-p--np-猜想"><strong>5. P = NP 猜想</strong></h2>
+
+<p>了解 NP-Hard 和 NP-Complete 的定義後，就可以回來看剛剛好奇的問題，P 到底等不等於 NP 呢，也就是我們可以證明 NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊆</mo></mrow><annotation encoding="application/x-tex">\subseteq</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">⊆</span></span></span></span> P 嗎？</p>
+
+<p>答案是，<strong>目前沒有人可以證明 P = NP 或是 P ≠ NP</strong>。</p>
+
+<p>雖然 P 是否等於 NP 是一個極困難的問題，不妨也可以嘗試證明看看。但在嘗試證明之前，需要先再次提到剛剛說的 “Cook-Levin Theorem” 的延伸推論：</p>
+
+<blockquote>
+  <p>P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span> SAT 是 P 問題</p>
+</blockquote>
+
+<p>意思是我們只要證明 SAT problem 為 P，即可證明 P = NP。我們就直接開始吧：</p>
+
+<ul>
+  <li>證明：P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇒</span></span></span></span> SAT 是 P 問題
+    <ul>
+      <li>非常簡單！！</li>
+      <li>由於 SAT problem 已知為 NP-Complete，所以 SAT problem 是 NP。又因假設 P = NP，則 SAT problem 是 P。</li>
+    </ul>
+  </li>
+  <li>證明：SAT 是 P 問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇒</span></span></span></span> P = NP
+    <ul>
+      <li>?</li>
+      <li>由於 SAT problem 已知為 NP-Complete，所以全部的 NP 問題都可以歸約成 SAT problem。又因假設 SAT problem 為 P，換句話說，全部的 NP 問題都可以歸約成 P 問題。也就是說，NP ⊆ P。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>從證明中，可以發現其實 SAT problem 可以替換成任一 NP-Complete 問題，也不影響證明，因此可以得到：</p>
+
+<blockquote>
+  <p>P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span> 任一 NP-Complete 問題為 P 問題</p>
+</blockquote>
+
+<p>也就是說，只要證明有任一個 NP-Complete 問題為 P，就可以證明 P = NP 了。</p>
+
+<p>但為什麼學者們那麼希望可以證明 P = NP 呢？因為如果成功證明了 P = NP，這代表每個 NP 問題都存在一個有效率的解法，只是我們還沒找到而已。反之，如果可以成功證明 P ≠ NP，也是一個很大的進展，這代表有些 NP 問題，一定找不到有效率的解法。</p>
+
+<p>不過，因為證明 P = NP 被視為一個幾乎不可能的任務，所以現今對於 P 和 NP 間的關係，普遍認知是：</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/p-np-npc-nph-relation.png" alt="p-np-npc-nph-relation" width="400" /></p>
+
+<p>從上圖還可以得到一個有趣的推論是：</p>
+
+<blockquote>
+  <p>若問題 Q 是 NP-Hard，則問題 Q 不是 P（除非 P = NP）</p>
+</blockquote>
+
+<p>另外也可以參考<a href="https://en.wikipedia.org/wiki/NP-hardness">下圖</a>。除了分別畫出 P = NP 和 P ≠ NP 的狀況之外，也清楚的標記各分類的難度關係。</p>
+
+<p><img src="/assets/images/2024-06-15-introduction-to-complexity/p-np-npc-nph-relation-detailed.png" alt="p-np-npc-nph-relation-detailed" width="400" /></p>
+
+<blockquote class="highlight-blockquote">
+  <ul>
+    <li><span class="highlight">目前普遍認為 P ≠ NP。</span></li>
+    <li><span class="highlight">P = NP 若且唯若任一 NP-Complete 問題為 P 問題。</span></li>
+  </ul>
+</blockquote>
+
+<hr data-content=" 參考資料 " />
+
+<ul>
+  <li><a href="https://lkm543.medium.com/%E6%BC%94%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84-np-%E5%95%8F%E9%A1%8C-db976e55b60b">李耕銘 - 【為什麼要區分演算法的 NP 問題】</a></li>
+  <li><a href="https://www.khanacademy.org/computing/ap-computer-science-principles/algorithms-101/solving-hard-problems/a/undecidable-problems">Khan Academy - Undecidable problems</a></li>
+  <li><a href="https://www.youtube.com/watch?v=eHZifpgyH_4&amp;list=PLUl4u3cNGP6317WaSNfmCvGym2ucw3oGp&amp;index=23">MIT OpenCourseWare - 16. Complexity: P, NP, NP-Completeness, Reductions</a></li>
+  <li><a href="https://cs.stackexchange.com/questions/9556/what-is-the-definition-of-p-np-np-complete-and-np-hard">StackExchange - What is the definition of P, NP, NP-Complete and NP-Hard?</a></li>
+</ul>
+
+<hr data-content=" 註解 " />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>現在無法用多項式時間解的某個問題，未來有可能找到某個多項式時間算法解出。 <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>在這裡等價的意思是，問題 A 的輸入經過多項式時間的轉換後，得到的問題 B 的輸入在問題 B 中得到的結果與原來在問題 A 中得到的結果是一樣的。換句話說，問題 A 的「是」或「否」答案對應於問題 B 的「是」或「否」答案。這種轉換允許我們利用問題 B 的解決方法來解決問題 A。 <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>這裡的 500 是個常數，可以被任何其他常數取代。 <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>因為決定性問題的答案只有是或否。 <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>用線性的畫法來描述難度其實不夠精確，但目前可以先以這樣的概念理解。在文末有更精確的難度標示圖。 <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>可滿足意即布林方程式結果為真；不可滿足意即布林方程式結果為假。 <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>變數賦值的意思是給變數值，如：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mtext>True</mtext></mrow><annotation encoding="application/x-tex">x = \text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span> 代表將變數 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 之值設為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>True</mtext></mrow><annotation encoding="application/x-tex">\text{True}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">True</span></span></span></span></span>、<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mtext>False</mtext></mrow><annotation encoding="application/x-tex">y = \text{False}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">False</span></span></span></span></span> 代表將變數 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> 之值設為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>False</mtext></mrow><annotation encoding="application/x-tex">\text{False}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">False</span></span></span></span></span>。 <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+</article>
+      </div>
+    </main>
+  </body>
+</html>
