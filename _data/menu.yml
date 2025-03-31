@@ -1,0 +1,31 @@
+# For documentation on this file, see:
+# https://github.com/riggraz/no-style-please#customize-the-menu
+
+entries:
+  - title: writings_
+    post_list:
+      limit: 5
+      show_more: true
+      show_more_text: See archive...
+      show_more_url: archive.html
+  - title: about_me_
+    url: about
+  # - title: posts by category
+  #   entries:
+  #     - title: algorithm
+  #       post_list:
+  #         category: algorithm
+  #         show_more: true
+  #         show_more_text: See more posts...
+  #         show_more_url: algorithm-archive.html
+
+  # - title: another list
+  #   entries:
+  #     - title: with subitems
+  #       entries:
+  #         - title: with subsubitems
+  #         - title: example page
+  #           url: about
+  # - title: PRO TIP
+  #   entries:
+  #     - title: to edit this menu, edit _data/menu.yml file
