@@ -16,7 +16,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.1" # Use the same Ruby version as your local setup
+          ruby-version: "3.3.5" # Use the same Ruby version as your local setup
           bundler-cache: true # Cache gems for faster builds
 
       - name: Install dependencies
