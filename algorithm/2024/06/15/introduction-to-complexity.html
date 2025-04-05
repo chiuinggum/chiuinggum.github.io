@@ -80,7 +80,7 @@
 
 <h2 id="1-前言"><strong>1. 前言</strong></h2>
 
-<p>在一般大學課程中所學到的演算法，大多都是多項式時間 (polynomial time) 的算法，意即給定大小為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的輸入，此算法的最壞情況的時間複雜度 (worst-case time complexity) 為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mi>k</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。然而，有很多的演算法問題，是目前找不到方法可以在多項式時間內解<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>。很明顯地，「可以用多項式時間解的問題」和「不確定是否可以用多項式時間解的問題」，這兩種問題的「難度」應該不同。在「不確定是否可以用多項式時間解的問題」這一類中，又應該進一步細分以幫助我們更好地分類問題。因此學者在研究這些問題的過程中，希望能用一種方式將這些問題依照「難度」分類，以方便進行討論。</p>
+<p>我們在大學課程中接觸到的演算法，大多屬於多項式時間（polynomial time）可解的類型，意即給定大小為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的輸入，此算法的最壞情況的時間複雜度 (worst-case time complexity) 為 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mi>k</mi></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。然而，有很多的演算法問題，是目前找不到方法可以在多項式時間內解<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>。很明顯地，「可以用多項式時間解的問題」和「不確定是否可以用多項式時間解的問題」，這兩種問題的「難度」應該不同。在「不確定是否可以用多項式時間解的問題」這一類中，又應該進一步細分以幫助我們更好地分類問題。因此學者在研究這些問題的過程中，希望能用一種方式將這些問題依照「難度」分類，以方便進行討論。</p>
 
 <p>這些難度分類包括 「P 問題 (P problems)」以及「NP 問題 (NP problems)」。你或許還聽過「NP 完備問題 (NP-Complete problems)」或是「NP 困難問題 (NP-Hard problems )」等。不過，即便全部沒聽過也沒關係，我們都將在本文當中討論到這些概念。</p>
 
@@ -88,13 +88,13 @@
 
 <h3 id="1-1-難度的概念"><strong>1-1. 難度的概念</strong></h3>
 
-<p>一個問題的「難度」在有明確定義之前是抽象的。有人可能會說問題越大，則問題越難，但其實並非如此。例如，給定一個有序數列，尋找其中某個數字的問題，即便數列很大，仍可以用二分搜尋法在對數時間內解決，因此這類問題的難度並不高。難度的問題一樣要回歸到時間複雜度的討論，像是以「一個問題可不可以用多項式時間解」當作判斷標準，來決定一個問題的難度分類。</p>
+<p>一個問題的「難度」在有明確定義之前是抽象的。有人可能會說問題越大，則問題越難，但其實並非如此。例如，給定一個有序數列，尋找其中某個數字的問題，即便數列很大，仍可以用二分搜尋法在對數時間內解決，因此這類問題的難度並不高。「問題的難度」仍然應該回到時間複雜度來衡量，像是以「一個問題可不可以用多項式時間解」當作判斷標準，來決定一個問題的難度分類。</p>
 
-<p>需要小心的是，這個難度分類是類似一個級距，例如 80 - 89 分的人有 13 個，這並不代表這 13 個人的分數完全一樣。也就是說，同樣被歸類在 NP 的兩個問題，「實際的難度」可能不同，但他們大致上的難度都是 NP。（現在不知道什麼是 NP 沒關係，只要知道他是一個分類就好）</p>
+<p>需要小心的是，這個難度分類是類似一個級距，例如 80 - 89 分的人有 13 個，這並不代表這 13 個人的分數完全一樣。即使兩個問題都被歸類為 NP，其實際難度可能不同，但在複雜度分類中，它們都屬於 NP 級別。（現在不知道什麼是 NP 沒關係，只要知道他是一個分類就好）</p>
 
 <h3 id="1-2-回顧---多項式時間-polynomial-time"><strong>1-2. 回顧 - 多項式時間 (polynomial time)</strong></h3>
 
-<p>如果不熟悉時間複雜度 (time complexity) 或是大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> 符號 (Big-O notation)，建議可以先去了解一下這兩個概念，再回來看這篇文會比較好理解。如果你已經知道它們是什麼，透過下圖喚醒一下記憶，知道哪些時間複雜度是多項式時間就夠了：</p>
+<p>如果不熟悉時間複雜度 (time complexity) 或是大 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi></mrow><annotation encoding="application/x-tex">O</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span></span> 符號 (Big-O notation)，建議可以先去了解一下這兩個概念，再回來看這篇文會比較好理解。如果你已經知道它們是什麼，透過<a href="https://www.bigocheatsheet.com/">下圖</a>喚醒一下記憶，知道哪些時間複雜度是多項式時間就夠了：</p>
 
 <p><img src="/assets/images/2024-06-15-introduction-to-complexity/Big-O-Complexity-Chart.png" alt="Big-O Complexity Chart" /></p>
 
@@ -129,16 +129,16 @@
     <ul>
       <li>路徑問題：給定一個圖 G 和兩個點 s 和 t，判斷是否存在從 s 到 t 的路徑</li>
       <li>連通問題：給定一個圖 G，判斷 G 是否連通，意即是否存在從任一點到任一其他點的路徑</li>
-      <li>歸約過程：若能解決「連通問題」，我們可以透過檢查 G 的聯通性來解決「路徑問題」。若我們去掉所有邊並只保留 s 和 t 之間的邊，再檢查這個新圖的連通性。如果新圖是連通的，則從 s 到 t 存在一條路徑。</li>
+      <li>歸約過程：若能解決「連通問題」，我們可以透過檢查 G 的聯通性來解決「路徑問題」。若我們只考慮 s 和 t 之間是否存在一條路徑來判斷圖是否連通，這樣的方式可以轉化成連通性判定。或者，我們可以透過在圖中加入額外邊來使問題轉化。如果新圖是連通的，則從 s 到 t 存在一條路徑。</li>
     </ul>
   </li>
   <li>
     <p>子集合問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> 背包問題</p>
 
     <ul>
-      <li>子集合問題：給定一組商品價格，判斷是否存在一個子集，其總和等於目標金額</li>
+      <li>子集合問題：子集合問題是判斷是否能挑出一組數字，讓它們加總起來等於某個特定值</li>
       <li>背包問題：給定一組物品，每個物品有重量和價值，找到在重量限制下最有價值的組合</li>
-      <li>歸約過程：將每個商品價格轉換為一個重量等於其價格，價值等於 1 的物品。然後，子集和問題可以歸約成找到背包配置，使得價值恰好等於目標總和。</li>
+      <li>歸約過程：我們可以把每個數字當作一個「物品」，這些物品的重量和價值都設為這個數字本身。接著設定背包的最大重量為這個特定值，並要求「裝滿這個背包、且總價值正好等於物品總重量」，這就等價於原本的子集合問題。</li>
     </ul>
   </li>
 </ol>
@@ -149,7 +149,7 @@
 
 <blockquote class="highlight-blockquote">
   <ul>
-    <li><span class="highlight">若 A 可以歸約成 B，則 B 的難度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> A 的難度</span></li>
+    <li><span class="highlight">若 A 可以歸約成 B，那麼 A 不會比 B 難，則 A 的難度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo></mrow><annotation encoding="application/x-tex">\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span></span></span></span> B 的難度</span></li>
     <li><span class="highlight">歸約存在遞移性</span></li>
   </ul>
 </blockquote>
@@ -195,26 +195,33 @@
 
 <h4 id="1-5-1-確定性算法-deterministic-algorithm"><strong>1-5-1. 確定性算法 (deterministic algorithm)</strong></h4>
 
-<p>我們<strong>平常指的演算法就是確定性算法</strong>。這種算法的特性是：每次餵給確定性算法同樣的輸入，<strong>產出的輸出都一樣</strong>。</p>
+<p>我們平常寫的演算法，像是解 Leetcode、考試題目的程式，大多都是「確定性算法」。這類演算法的特性是：<strong>每次給它一樣的輸入，總是會產生相同的輸出</strong>，中間的執行流程也是固定的。</p>
 
 <p><img src="/assets/images/2024-06-15-introduction-to-complexity/deterministic-algorithm-0.png" alt="deterministic-algorithm-0" width="250" />
 <em>黃色執行完後，如果 x = 0 ，則執行藍色；如果 x ≠ 0，則執行粉色</em></p>
 
-<p>就像平常寫的 Leetcode 題目，或是程式設計課程題庫中的題目一樣。我們寫出來的 code，每次輸入 sample input，輸出都應該是 sample output。</p>
-
 <h4 id="1-5-2-非確定性算法-non-deterministic-algorithm"><strong>1-5-2. 非確定性算法 (non-deterministic algorithm)</strong></h4>
 
-<p>這種算法的特性是：每次餵給非確定性算法同樣的輸入，<strong>產生的輸出可能不同</strong>。</p>
+<p>非確定性算法是一種<strong>理論模型</strong>，真實世界的電腦並無法真正執行它。但在計算理論中，它是個非常強大的工具，用來定義問題的複雜度。</p>
+
+<p>這類算法的特性是：在某些步驟中可以<strong>同時分岔出多條執行路徑</strong>，每條路徑代表一種可能的選擇，最終是否接受輸入，取決於是否存在<strong>至少一條成功的路徑</strong>。因此，<strong>對同樣的輸入，可能產生不同的執行流程與輸出。</strong></p>
 
 <p><img src="/assets/images/2024-06-15-introduction-to-complexity/non-deterministic-algorithm-0.png" alt="non-deterministic-algorithm-0" width="250" />
 <em>黃色執行完後，不曉得會執行藍色，或執行粉色。</em></p>
 
-<p>非確定性算法分成兩個部份，分別是<strong>猜測</strong> (guessing) 和<strong>驗證</strong> (verification)。在討論複雜度理論的時候，我們假設這個算法<strong>總是猜對答案</strong>，並在得到答案後，算法會驗證答案的正確性。注意，我們並不在乎答案是怎麼被猜到的，這可能有點違反平常的思考邏輯，因為我們一直都是被訓練要釐清如何解出問題。但在這裡，我們不在乎那個解法是如何得到的。</p>
+<p>我們可以把它想成兩個階段：</p>
 
-<p>這個算法是一個理論上的概念，真實世界並不存在這樣的算法，我們之所以需要提到這個算法是為了後續的定義方便。一開始怎麼想可能都覺得怪怪的，可以先把這個算法想成永遠正確的神奇海螺，你拿什麼問題問它，它可以馬上告訴你答案。</p>
+<ol>
+  <li><strong>猜測 (guessing)</strong>：產生一個可能的解</li>
+  <li><strong>驗證 (verification)</strong>：檢查這個解是否正確</li>
+</ol>
+
+<p>在討論複雜度時，我們假設這個算法能夠「總是猜對答案」，也就是說，它可以神奇地直接選中正確的解。<strong>我們不在乎這個解是怎麼被猜出來的</strong>，這點聽起來可能有些違反直覺，畢竟我們平常總是被訓練要釐清「怎麼解題」。但這正是非確定性模型的魅力：<strong>它只關心能不能驗證答案，不關心怎麼找到它</strong>。</p>
+
+<p>你可以先把它想成一個「神奇海螺」–<strong>不管你問它什麼問題，它總能立刻告訴你正確答案</strong>。</p>
 
 <p><em>為什麼要了解什麼是確定性算法、什麼是非確定性算法？</em><br />
-在討論這些難度分類時，這兩種算法是重要的定義工具。</p>
+因為在後續定義問題難度（如 P、NP、NP-Complete）時，這兩種算法模型會扮演核心角色。</p>
 
 <blockquote class="highlight-blockquote">
   <ul>
@@ -222,6 +229,8 @@
     <li><span class="highlight">非確定性算法包含猜答案和驗證，且假設總是會猜對答案。</span></li>
   </ul>
 </blockquote>
+
+<p>接下來我們會看到，這些概念如何成為定義「P vs NP」問題的基礎。</p>
 
 <hr />
 
@@ -458,36 +467,38 @@ Q is NP-Hard <span class="katex"><span class="katex-mathml"><math xmlns="http://
 
 <p>答案是，<strong>目前沒有人可以證明 P = NP 或是 P ≠ NP</strong>。</p>
 
-<p>雖然 P 是否等於 NP 是一個極困難的問題，不妨也可以嘗試證明看看。但在嘗試證明之前，需要先再次提到剛剛說的 “Cook-Levin Theorem” 的延伸推論：</p>
+<p>這個問題是計算理論中最著名、最困難的未解問題之一，甚至被列為 Clay 數學研究所的「七大千禧難題」之一。</p>
+
+<p>雖然問題很困難，我們還是可以從理論角度來理解它的關鍵。根據 Cook-Levin 定理，有以下等價關係：</p>
 
 <blockquote>
   <p>P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span> SAT 是 P 問題</p>
 </blockquote>
 
-<p>意思是我們只要證明 SAT problem 為 P，即可證明 P = NP。我們就直接開始吧：</p>
+<p>意思是我們只要證明 SAT problem ∈ P（即 SAT 是多項式時間可解的），就可以證明 P = NP。我們就直接開始吧：</p>
 
 <ul>
   <li>證明：P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇒</span></span></span></span> SAT 是 P 問題
     <ul>
-      <li>非常簡單！！</li>
-      <li>由於 SAT problem 已知為 NP-Complete，所以 SAT problem 是 NP。又因假設 P = NP，則 SAT problem 是 P。</li>
+      <li>由於 SAT 是 NP-Complete 問題，它屬於 NP；又因假設 P = NP，則 SAT ∈ P。</li>
     </ul>
   </li>
   <li>證明：SAT 是 P 問題 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇒</mo></mrow><annotation encoding="application/x-tex">\Rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇒</span></span></span></span> P = NP
     <ul>
-      <li>?</li>
-      <li>由於 SAT problem 已知為 NP-Complete，所以全部的 NP 問題都可以歸約成 SAT problem。又因假設 SAT problem 為 P，換句話說，全部的 NP 問題都可以歸約成 P 問題。也就是說，NP ⊆ P。</li>
+      <li>由於 SAT 是 NP-Complete 問題，代表所有 NP 問題都能在多項式時間內歸約到 SAT；又假設 SAT ∈ P，代表我們可以在多項式時間內解 SAT。</li>
+      <li>因此，所有 NP 問題都可以透過「多項式歸約 + 多項式解法」來解，也就是說每個 NP 問題都能在多項式時間內解決。</li>
+      <li>所以 NP ⊆ P，亦即 P = NP。</li>
     </ul>
   </li>
 </ul>
 
-<p>從證明中，可以發現其實 SAT problem 可以替換成任一 NP-Complete 問題，也不影響證明，因此可以得到：</p>
+<p>從證明中，可以發現其實 SAT problem 可以替換成任一 NP-Complete 問題，也不影響證明。這也代表：</p>
 
 <blockquote>
   <p>P = NP <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo></mrow><annotation encoding="application/x-tex">\Leftrightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">⇔</span></span></span></span> 任一 NP-Complete 問題為 P 問題</p>
 </blockquote>
 
-<p>也就是說，只要證明有任一個 NP-Complete 問題為 P，就可以證明 P = NP 了。</p>
+<p>所以只要能找到一個 NP-Complete 問題的多項式時間演算法，我們就能解開這個世界級的謎題。</p>
 
 <p>但為什麼學者們那麼希望可以證明 P = NP 呢？因為如果成功證明了 P = NP，這代表每個 NP 問題都存在一個有效率的解法，只是我們還沒找到而已。反之，如果可以成功證明 P ≠ NP，也是一個很大的進展，這代表有些 NP 問題，一定找不到有效率的解法。</p>
 
