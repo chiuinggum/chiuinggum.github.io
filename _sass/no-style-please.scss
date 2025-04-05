@@ -53,6 +53,7 @@ body {
   margin: 0;
   min-height: 100%;
   overflow-wrap: break-word;
+  // text-align: justify;
 }
 
 .post-meta {
@@ -84,7 +85,8 @@ li {
 }
 
 .w {
-  max-width: 640px;
+  // max-width: 640px;
+  max-width: 50%;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
