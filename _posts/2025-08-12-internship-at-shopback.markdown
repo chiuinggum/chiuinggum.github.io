@@ -1,0 +1,47 @@
+---
+layout: post
+title: "[EN] A Year as an Intern at ShopBack: Growing as a Backend Engineer"
+date: 2025-08-12
+categories: internship
+---
+
+- [What I worked on](#what-i-worked-on)
+- [Why ShopBack](#why-shopback)
+- [The first big challenge](#the-first-big-challenge)
+- [Taking on more](#taking-on-more)
+- [The people](#the-people)
+- [What I take away](#what-i-take-away)
+
+### **What I worked on**
+
+I spent the past year as a backend engineering intern with ShopBack's Core Experience Team. My work ranged from maintaining and optimizing existing systems to building new features and refactoring old ones. Over twelve months, I took part in seven or eight projects, mostly in TypeScript with NestJS, and occasionally in Python.
+
+### **Why ShopBack**
+
+I joined ShopBack because I wanted to build real products, not just "intern tasks." Before applying, I had read a few internship experience posts and got a sense of the company through the values they promoted. During my interview, my future manager told me that interns are treated the same as full-timers, which reinforced that impression. Those conversations, combined with what I had read, convinced me that ShopBack was where I could learn how to build at scale.
+
+### **The first big challenge**
+
+A few weeks in, I was tasked with rewriting the Experiment Service from Scala to TypeScript with NestJS. I had never used Scala before and wasn't sure how to even break down the work.
+
+Working with Allen, my only teammate on the project, I initially followed the plan he set - reading the existing code, rewriting it piece by piece, and checking my understanding along the way. The project wasn't large, but it showed me how little I knew about structuring code. Through our discussions, I began to see architecture and design in a new light, beyond the basic patterns I'd learned before.
+
+Some teammates thought it might be too much for a new intern, and I doubted myself too. But Allen reviewed my work, I wrote all the code, and we deployed ahead of schedule, replacing the old system entirely. Later on, I would take on projects where I planned my own work from scratch, but this first one proved to me that I could deliver on something that once felt far beyond my abilities.
+
+### **Taking on more**
+
+That same mix of doubt and curiosity followed me through the year. I refactored chatbot APIs to simplify complexity and make them easier to maintain. I designed and implemented multiple APIs for the travel product, which became part of a larger customer-facing feature. I also built Airflow DAG logic for the missing cashback system, which taught me how critical data workflows are to backend engineering.
+
+One of my favorite projects was leading a newsletter automation tool from scratch as the sole developer. It wasn't just about writing code - I worked with my PM to define the MVP, deciding together which features to include immediately and which could wait for later versions. I clarified requirements, wrote documentation for review, and kept the project moving by making sure the necessary data was available and that the Braze API we used could handle the load without hitting rate limits. The tool launched in the Philippines, Vietnam, and Thailand, and has since been used for months of newsletter campaigns, saving the marketing team significant time and effort.
+
+### **The people**
+
+Beyond the work, what made this year truly memorable were the people. My manager, George, was always ready to help, whether it was a technical problem or a question about personal growth, and he made sure I was learning as much as I could. My mentor, Allen, showed me how to write cleaner, more maintainable code and, more importantly, to think several steps ahead when building something.
+
+From others on the team, I learned things that went beyond code - how to push back on unclear requirements, how to prioritize under pressure, and how to make meetings efficient and focused. The rest of the team were endlessly supportive, generous with their knowledge, and patient in sharing their experience. This internship would not have been half as good without them.
+
+### **What I take away**
+
+This year showed me how large-scale products are built, how to write cleaner and more scalable code, and how to measure the value of my work. More importantly, it taught me to be open, take ownership of unfamiliar problems, and trust that I can figure things out along the way.
+
+I still feel doubt at the start of big projects, but now I know how to work through it. That, to me, is the biggest growth of all.
