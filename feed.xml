@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://chiuinggum.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://chiuinggum.github.io/" rel="alternate" type="text/html" /><updated>2025-04-05T02:35:48+00:00</updated><id>https://chiuinggum.github.io/feed.xml</id><title type="html">yuntingchiu_</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">淺談計算複雜性理論</title><link href="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html" rel="alternate" type="text/html" title="淺談計算複雜性理論" /><published>2024-06-15T00:00:00+00:00</published><updated>2024-06-15T00:00:00+00:00</updated><id>https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity</id><content type="html" xml:base="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://chiuinggum.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://chiuinggum.github.io/" rel="alternate" type="text/html" /><updated>2026-05-04T20:52:06+00:00</updated><id>https://chiuinggum.github.io/feed.xml</id><title type="html">yuntingchiu_</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">[EN] A Year as an Intern at ShopBack: Growing as a Backend Engineer</title><link href="https://chiuinggum.github.io/internship/2025/08/12/internship-at-shopback.html" rel="alternate" type="text/html" title="[EN] A Year as an Intern at ShopBack: Growing as a Backend Engineer" /><published>2025-08-12T00:00:00+00:00</published><updated>2025-08-12T00:00:00+00:00</updated><id>https://chiuinggum.github.io/internship/2025/08/12/internship-at-shopback</id><content type="html" xml:base="https://chiuinggum.github.io/internship/2025/08/12/internship-at-shopback.html"><![CDATA[<ul>
+  <li><a href="#what-i-worked-on">What I worked on</a></li>
+  <li><a href="#why-shopback">Why ShopBack</a></li>
+  <li><a href="#the-first-big-challenge">The first big challenge</a></li>
+  <li><a href="#taking-on-more">Taking on more</a></li>
+  <li><a href="#the-people">The people</a></li>
+  <li><a href="#what-i-take-away">What I take away</a></li>
+</ul>
+
+<h3 id="what-i-worked-on"><strong>What I worked on</strong></h3>
+
+<p>I spent the past year as a backend engineering intern with ShopBack’s Core Experience Team. My work ranged from maintaining and optimizing existing systems to building new features and refactoring old ones. Over twelve months, I took part in seven or eight projects, mostly in TypeScript with NestJS, and occasionally in Python.</p>
+
+<h3 id="why-shopback"><strong>Why ShopBack</strong></h3>
+
+<p>I joined ShopBack because I wanted to build real products, not just “intern tasks.” Before applying, I had read a few internship experience posts and got a sense of the company through the values they promoted. During my interview, my future manager told me that interns are treated the same as full-timers, which reinforced that impression. Those conversations, combined with what I had read, convinced me that ShopBack was where I could learn how to build at scale.</p>
+
+<h3 id="the-first-big-challenge"><strong>The first big challenge</strong></h3>
+
+<p>A few weeks in, I was tasked with rewriting the Experiment Service from Scala to TypeScript with NestJS. I had never used Scala before and wasn’t sure how to even break down the work.</p>
+
+<p>Working with Allen, my only teammate on the project, I initially followed the plan he set - reading the existing code, rewriting it piece by piece, and checking my understanding along the way. The project wasn’t large, but it showed me how little I knew about structuring code. Through our discussions, I began to see architecture and design in a new light, beyond the basic patterns I’d learned before.</p>
+
+<p>Some teammates thought it might be too much for a new intern, and I doubted myself too. But Allen reviewed my work, I wrote all the code, and we deployed ahead of schedule, replacing the old system entirely. Later on, I would take on projects where I planned my own work from scratch, but this first one proved to me that I could deliver on something that once felt far beyond my abilities.</p>
+
+<h3 id="taking-on-more"><strong>Taking on more</strong></h3>
+
+<p>That same mix of doubt and curiosity followed me through the year. I refactored chatbot APIs to simplify complexity and make them easier to maintain. I designed and implemented multiple APIs for the travel product, which became part of a larger customer-facing feature. I also built Airflow DAG logic for the missing cashback system, which taught me how critical data workflows are to backend engineering.</p>
+
+<p>One of my favorite projects was leading a newsletter automation tool from scratch as the sole developer. It wasn’t just about writing code - I worked with my PM to define the MVP, deciding together which features to include immediately and which could wait for later versions. I clarified requirements, wrote documentation for review, and kept the project moving by making sure the necessary data was available and that the Braze API we used could handle the load without hitting rate limits. The tool launched in the Philippines, Vietnam, and Thailand, and has since been used for months of newsletter campaigns, saving the marketing team significant time and effort.</p>
+
+<h3 id="the-people"><strong>The people</strong></h3>
+
+<p>Beyond the work, what made this year truly memorable were the people. My manager, George, was always ready to help, whether it was a technical problem or a question about personal growth, and he made sure I was learning as much as I could. My mentor, Allen, showed me how to write cleaner, more maintainable code and, more importantly, to think several steps ahead when building something.</p>
+
+<p>From others on the team, I learned things that went beyond code - how to push back on unclear requirements, how to prioritize under pressure, and how to make meetings efficient and focused. The rest of the team were endlessly supportive, generous with their knowledge, and patient in sharing their experience. This internship would not have been half as good without them.</p>
+
+<h3 id="what-i-take-away"><strong>What I take away</strong></h3>
+
+<p>This year showed me how large-scale products are built, how to write cleaner and more scalable code, and how to measure the value of my work. More importantly, it taught me to be open, take ownership of unfamiliar problems, and trust that I can figure things out along the way.</p>
+
+<p>I still feel doubt at the start of big projects, but now I know how to work through it. That, to me, is the biggest growth of all.</p>]]></content><author><name></name></author><category term="internship" /><summary type="html"><![CDATA[What I worked on Why ShopBack The first big challenge Taking on more The people What I take away]]></summary></entry><entry><title type="html">[中] 淺談計算複雜性理論</title><link href="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html" rel="alternate" type="text/html" title="[中] 淺談計算複雜性理論" /><published>2024-06-15T00:00:00+00:00</published><updated>2024-06-15T00:00:00+00:00</updated><id>https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity</id><content type="html" xml:base="https://chiuinggum.github.io/algorithm/2024/06/15/introduction-to-complexity.html"><![CDATA[<ul>
   <li><a href="#1-前言">1. 前言</a>
     <ul>
       <li><a href="#1-1-難度的概念">1-1. 難度的概念</a></li>
@@ -78,18 +119,14 @@
 <p>這樣講可能還是有點抽象，我們來看一些例子：</p>
 
 <ol>
-  <li>
-    <p>路徑問題 \(\le\) 連通問題</p>
-
+  <li>路徑問題 \(\le\) 連通問題
     <ul>
       <li>路徑問題：給定一個圖 G 和兩個點 s 和 t，判斷是否存在從 s 到 t 的路徑</li>
       <li>連通問題：給定一個圖 G，判斷 G 是否連通，意即是否存在從任一點到任一其他點的路徑</li>
       <li>歸約過程：若能解決「連通問題」，我們可以透過檢查 G 的聯通性來解決「路徑問題」。若我們只考慮 s 和 t 之間是否存在一條路徑來判斷圖是否連通，這樣的方式可以轉化成連通性判定。或者，我們可以透過在圖中加入額外邊來使問題轉化。如果新圖是連通的，則從 s 到 t 存在一條路徑。</li>
     </ul>
   </li>
-  <li>
-    <p>子集合問題 \(\le\) 背包問題</p>
-
+  <li>子集合問題 \(\le\) 背包問題
     <ul>
       <li>子集合問題：子集合問題是判斷是否能挑出一組數字，讓它們加總起來等於某個特定值</li>
       <li>背包問題：給定一組物品，每個物品有重量和價值，找到在重量限制下最有價值的組合</li>
@@ -116,17 +153,13 @@
 <p>所有的最佳化問題都可以被轉換成決定性問題。直接看例子：</p>
 
 <ol>
-  <li>
-    <p>最短路徑問題 (shortest problem)</p>
-
+  <li>最短路徑問題 (shortest problem)
     <ul>
       <li>最佳化問題：找出圖中的最短路徑</li>
       <li>決定性問題：是否存在一條路徑總長小於 500<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>？</li>
     </ul>
   </li>
-  <li>
-    <p>旅行推銷員問題 (traveling salesperson problem)</p>
-
+  <li>旅行推銷員問題 (traveling salesperson problem)
     <ul>
       <li>最佳化問題：找出圖中可以拜訪每個城市一次的最短路徑</li>
       <li>決定性問題：是否存在可以拜訪每個城市一次的路徑，其總長小於 500？</li>
